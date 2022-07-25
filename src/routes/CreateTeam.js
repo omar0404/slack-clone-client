@@ -6,7 +6,8 @@ const createTeamMutation = gql`
     createTeam(name: $name) 
   }
 `;
-const CreateTeam = ({ history }) => {
+const CreateTeam = ({ history, ...props }) => {
+  console.log('props', props)
   const [createTeam] = useMutation(createTeamMutation)
   const name = useRef('')
 
