@@ -5,35 +5,35 @@ import Home from './Home'
 import CreateTeam from './CreateTeam'
 import jwtDecode from 'jwt-decode'
 import Login from './Login'
-// const isAuthenticated = () => {
-//   try {
-//     jwtDecode(localStorage.getItem('token'))
-//   } catch (error) {
-//     return false
-//   }
-//   return true
-// };
+import { useState } from 'react'
+import { SessionProvider } from '../context/Session'
+const isAuthenticated = () => {
+  try {
+    jwtDecode(localStorage.getItem('token'))
+  } catch (error) {
+    return false
+  }
+  return true
+};
 const ProtectedRoute = ({ children, ...props }) => {
-  // if (!isAuthenticated()) {
-  //   return <Navigate to="/login" replace />;
-  // }
-
-  return <Route {...props} element={children} />;
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
 };
 
 const Routes = () => {
   return (
-    <BrowserRouter>
-      <SwitchRoutes>
-        <Route path='/' exact element={<Home />} />
-        <Route path='/register' exact element={<Register />} />
-        <Route path='/login' exact element={<Login />} />
-        {/* <ProtectedRoute path='/createTeam' exact >
-          <CreateTeam
-          />
-        </ProtectedRoute> */}
-      </SwitchRoutes>
-    </BrowserRouter>
+    <SessionProvider>
+      <BrowserRouter>
+        <SwitchRoutes>
+          <Route path='/' exact element={<ProtectedRoute path='/' exact ><Home /></ProtectedRoute>} />
+          <Route path='/register' exact element={<Register />} />
+          <Route path='/login' exact element={<Login />} />
+          <Route path='/createTeam' exact element={<ProtectedRoute path='/createTeam' exact ><CreateTeam /></ProtectedRoute>} />
+        </SwitchRoutes>
+      </BrowserRouter>
+    </SessionProvider>
   )
 }
 export default Routes
