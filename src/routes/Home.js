@@ -1,12 +1,13 @@
 import tw from "tailwind-styled-components"
+import NavBar from "../components/Navbar"
 import Teams from '../components/Teams'
-import { useMutation, gql } from '@apollo/client';
-const createTeamMutation = gql`
-  mutation($name: String!) {
-    createTeam(name: $name) 
-  }
-`;
+
 const Container = tw.div`
+flex
+flex-1
+flex-col
+`
+const Body = tw.div`
 flex
 flex-1
 `
@@ -22,10 +23,13 @@ p-3
 `
 const Home = () => {
   return (
-    <Container className="flex">
-      <Teams />
-      <Channels />
-      <Messages />
+    <Container>
+      <NavBar />
+      <Body className="flex">
+        <Teams />
+        <Channels />
+        <Messages />
+      </Body>
     </Container>
   )
 }
