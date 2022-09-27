@@ -1,6 +1,8 @@
+import { useQuery, gql } from "@apollo/client"
 import tw from "tailwind-styled-components"
 import NavBar from "../components/Navbar"
 import Teams from '../components/Teams'
+import { toast } from 'react-toastify';
 
 const Container = tw.div`
 flex
@@ -21,9 +23,25 @@ bg-zinc-900
 flex-1
 p-3	
 `
+const TEAMS_QUERY = gql`
+query Teams {
+  getTeams {
+    id
+    name
+  }
+}
+`;
 const Home = () => {
+  const userTeams = useQuery(TEAMS_QUERY, {
+    onError: (err) => {
+      toast.error(err.message)
+    }
+  })
+  console.log("userTeams", userTeams)
+
   return (
     <Container>
+
       <NavBar />
       <Body className="flex">
         <Teams />

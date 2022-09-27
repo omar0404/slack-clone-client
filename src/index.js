@@ -2,24 +2,28 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 // import 'semantic-ui-css/semantic.min.css'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
+  ApolloProvider
 } from "@apollo/client";
 import Routes from './routes';
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache(),
   headers: {
-    authorization: JSON.parse(localStorage.getItem('token'))
+    authorization: JSON.parse(localStorage.getItem('token')),
+    refreshToken: JSON.parse(localStorage.getItem('refreshToken'))
   }
 });
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ApolloProvider client={client}>
     <Routes />
+    <ToastContainer />
   </ApolloProvider>
 );
 
