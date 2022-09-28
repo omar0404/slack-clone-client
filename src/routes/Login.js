@@ -30,6 +30,7 @@ const Login = () => {
   const onSubmit = async () => {
     const { data } = await login({ variables: formState })
     localStorage.setItem('token', JSON.stringify(data?.login?.token))
+    localStorage.setItem('refreshToken', JSON.stringify(data?.login?.refreshToken))
     setSession(data?.login?.user)
     navigate('/')
   }

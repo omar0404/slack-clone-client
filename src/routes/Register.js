@@ -16,15 +16,15 @@ const registerMutation = gql`
   }
 `;
 const Register = () => {
-  const [register, { data, loading, error }] = useMutation(registerMutation)
+  const [register, { data, loading }] = useMutation(registerMutation)
   const formState = useRef({}).current
   const onSubmit = async () => {
     console.log(...Object.values(formState))
-    const { data: { register: { token } } } = await register({ variables: formState })
+    const { data: { register: { token, refreshToken } } } = await register({ variables: formState })
     localStorage.setItem('token', JSON.stringify(token))
+    localStorage.setItem('refreshToken', JSON.stringify(refreshToken))
   }
   console.log('data', data)
-  console.log('error',)
   if (loading)
     return <h2>LOADING</h2>
   return (
@@ -50,7 +50,6 @@ const Register = () => {
         placeholder="Password"
         fluid
       />
-      {error && <div>{JSON.parse(JSON.stringify(error))?.message}</div>}
       <Button onClick={onSubmit}>Submit</Button>
     </Container>
   )
